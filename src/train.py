@@ -1,18 +1,35 @@
 import config
 import dataset
-import engine
-import torch
 import pandas as pd
-import numpy as np
+import argparse
+from torch.utils.tensorboard import SummaryWriter
 
 from model import BERTBaseUncased
 from sklearn import metrics
 from transformers import AdamW
 from transformers import get_linear_schedule_with_warmup
 from config import *
+from utils import *
 
 
-def run():
+def parse_args():
+    parser = argparse.ArgumentParser(description='Training model for Jigsaw Multilingual Toxic Comment Classification')
+    parser.add_argument("--num-workers", type=int, default=4,
+                        help="Number of workers for training. "
+                             "Default: 4")
+    parser.add_argument("--max-length", type=int, default=512,
+                        help="The maximum length of a sequence after tokenizing. "
+                             "Default: 512")
+    parser.add_argument("--epochs", type=int, default=4,
+                        help="Number of epochs used for training. "
+                             "Default: 512")
+    parser.add_argument("--batch-size", type=int, default=64,
+                        help="Batch size. Default: 512")
+
+    return parser.parse_args()
+
+
+def run(num_workers, max_length, epochs, batch_size):
     df1 = pd.read_csv(TRAINING_FILE1, usecols=["comment_text", "toxic"])
     df2 = pd.read_csv(TRAINING_FILE2, usecols=["comment_text", "toxic"])
 
@@ -31,7 +48,7 @@ def run():
     train_data_loader = torch.utils.data.DataLoader(
         train_dataset,
         batch_size=config.TRAIN_BATCH_SIZE,
-        num_workers=4
+        num_workers=num_workers
     )
 
     valid_dataset = dataset.BERTDataset(
@@ -69,8 +86,8 @@ def run():
 
     best_accuracy = 0
     for epoch in range(config.EPOCHS):
-        engine.train_fn(train_data_loader, model, optimizer, device, scheduler)
-        outputs, targets = engine.eval_fn(valid_data_loader, model, device)
+        train_fn(train_data_loader, model, optimizer, device, scheduler)
+        outputs, targets = eval_fn(valid_data_loader, model, device)
         outputs = np.array(outputs) >= 0.5
         accuracy = metrics.accuracy_score(targets, outputs)
         print(f"Accuracy Score = {accuracy}")
@@ -80,4 +97,10 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+    seed_everything(seed=42)
+
+    args = parse_args()
+    run(num_workers=args.num_workers,
+        max_length=args.max_length,
+        epochs=args.epochs,
+        batch_size=args.batch_size)

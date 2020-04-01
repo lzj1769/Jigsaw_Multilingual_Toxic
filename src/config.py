@@ -1,6 +1,6 @@
 import transformers
 
-MAX_LEN = 192
+MAX_LEN = 512
 TRAIN_BATCH_SIZE = 64
 VALID_BATCH_SIZE = 4
 EPOCHS = 5
