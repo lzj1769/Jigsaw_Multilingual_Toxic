@@ -8,8 +8,8 @@
 
 module load cuda
 
-source ~/.zshrc
-source ~/miniconda3/bin/activate kaggle
+#source ~/.zshrc
+#source ~/miniconda3/bin/activate kaggle
 
 input_dir=/home/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/input
 output_dir=/work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output
@@ -20,6 +20,6 @@ test_file=$input/jigsaw-multilingual-toxic-comment-classification/test.csv
 validation_file=$input/jigsaw-multilingual-toxic-comment-classification/validation.csv
 sample_file=$input/jigsaw-multilingual-toxic-comment-classification/sample_submission.csv
 
-python train.py \
+python run.py \
 --train_data_file_1 $train_data_file_1 \
 --train_data_file_2 $train_data_file_2

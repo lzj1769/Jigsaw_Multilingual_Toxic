@@ -22,6 +22,7 @@
         <list>
           <option value="float.*" />
           <option value="torch.utils" />
+          <option value="torch.distributed" />
         </list>
       </option>
     </inspection_tool>
