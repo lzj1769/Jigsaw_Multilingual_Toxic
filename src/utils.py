@@ -1,81 +1,59 @@
 import os
-import numpy as np
 import random
+import pandas as pd
+import numpy as np
 import torch
-import torch.nn as nn
+import dataset
 
 
-def seed_everything(seed):
-    """
-    Seeds basic parameters for reproductibility of results
-
-    Arguments:
-        seed {int} -- Number of the seed
-    """
-    random.seed(seed)
-    os.environ["PYTHONHASHSEED"] = str(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
+def set_seed(args):
+    random.seed(args.seed)
+    np.random.seed(args.seed)
+    torch.manual_seed(args.seed)
+    if args.n_gpu > 0:
+        torch.cuda.manual_seed_all(args.seed)
 
 
-def loss_fn(outputs, targets):
-    return nn.BCEWithLogitsLoss()(outputs, targets.view(-1, 1))
+def load_data(args, tokenizer, data):
+    if data == "train":
+        training_file_1 = os.path.join(args.data_dir,
+                                       "jigsaw-multilingual-toxic-comment-classification",
+                                       "jigsaw-toxic-comment-train.csv")
+        training_file_2 = os.path.join(args.data_dir,
+                                       "jigsaw-multilingual-toxic-comment-classification",
+                                       "jigsaw-unintended-bias-train.csv")
+        df_train1 = pd.read_csv(training_file_1)
+        df_train2 = pd.read_csv(training_file_2)
 
+        df_train2.toxic = df_train2.toxic.round().astype(int)
 
-def train_fn(data_loader, model, optimizer, device, scheduler):
-    model.train()
+        # Combine df_train1 with a subset of df_train2
+        df_train = pd.concat([
+            df_train1[['comment_text', 'toxic']],
+            df_train2[['comment_text', 'toxic']].query('toxic==1'),
+            df_train2[['comment_text', 'toxic']].query('toxic==0').sample(n=500000, random_state=0)
+        ])
 
-    for bi, d in enumerate(data_loader):
-        ids = d["ids"]
-        token_type_ids = d["token_type_ids"]
-        mask = d["mask"]
-        targets = d["targets"]
-
-        ids = ids.to(device, dtype=torch.long)
-        token_type_ids = token_type_ids.to(device, dtype=torch.long)
-        mask = mask.to(device, dtype=torch.long)
-        targets = targets.to(device, dtype=torch.float)
-
-        optimizer.zero_grad()
-        outputs = model(
-            ids=ids,
-            mask=mask,
-            token_type_ids=token_type_ids
+        train_dataset = dataset.BERTDataset(
+            comment_text=df_train.comment_text.values,
+            labels=df_train.toxic.values,
+            tokenizer=tokenizer,
+            max_len=args.max_seq_length
         )
 
-        loss = loss_fn(outputs, targets)
-        if bi % 100 == 0:
-            print(f'bi={bi}, loss={loss}')
+        return train_dataset
 
-        loss.backward()
-        optimizer.step()
-        scheduler.step()
+    elif data == "validation":
+        validation_file = os.path.join(args.data_dir,
+                                       "jigsaw-multilingual-toxic-comment-classification",
+                                       "validation.csv")
+        df_valid = pd.read_csv(validation_file)
 
+        valid_dataset = dataset.BERTDataset(
+            comment_text=df_valid.comment_text.values,
+            labels=df_valid.toxic.values,
+            tokenizer=tokenizer,
+            max_len=args.max_seq_length
+        )
 
-def eval_fn(data_loader, model, device):
-    model.eval()
-    fin_targets = []
-    fin_outputs = []
-    with torch.no_grad():
-        for bi, d in enumerate(data_loader):
-            ids = d["ids"]
-            token_type_ids = d["token_type_ids"]
-            mask = d["mask"]
-            targets = d["targets"]
-
-            ids = ids.to(device, dtype=torch.long)
-            token_type_ids = token_type_ids.to(device, dtype=torch.long)
-            mask = mask.to(device, dtype=torch.long)
-            targets = targets.to(device, dtype=torch.float)
-
-            outputs = model(
-                ids=ids,
-                mask=mask,
-                token_type_ids=token_type_ids
-            )
-            fin_targets.extend(targets.cpu().detach().numpy().tolist())
-            fin_outputs.extend(torch.sigmoid(outputs).cpu().detach().numpy().tolist())
-    return fin_outputs, fin_targets
+        return valid_dataset

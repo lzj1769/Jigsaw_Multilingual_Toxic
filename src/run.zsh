@@ -1,25 +1,35 @@
 #!/usr/local_rwth/bin/zsh
 
-#SBATCH -J train
-#SBATCH -o train.txt
+#SBATCH -J run
+#SBATCH -o run.txt
 
 #SBATCH -t 60:00:00 --mem=60G
-#SBATCH --gres=gpu:1 -A rwth0455 -c 12
+#SBATCH --gres=gpu:2 -A rwth0455 -c 48
 
 module load cuda
+source ~/.zshrc
+source ~/miniconda3/bin/activate kaggle
 
-#source ~/.zshrc
-#source ~/miniconda3/bin/activate kaggle
-
-input_dir=/home/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/input
+data_dir=/home/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/input
 output_dir=/work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output
-
-train_data_file_1=$input_dir/jigsaw-multilingual-toxic-comment-classification/jigsaw-toxic-comment-train.csv
-train_data_file_2=$input_dir/jigsaw-multilingual-toxic-comment-classification/jigsaw-unintended-bias-train.csv
-test_file=$input/jigsaw-multilingual-toxic-comment-classification/test.csv
-validation_file=$input/jigsaw-multilingual-toxic-comment-classification/validation.csv
-sample_file=$input/jigsaw-multilingual-toxic-comment-classification/sample_submission.csv
+log_dir=/home/rs619065/kaggle/Jigsaw_Multilingual_Toxic/log
 
 python run.py \
---train_data_file_1 $train_data_file_1 \
---train_data_file_2 $train_data_file_2
+--data_dir $data_dir \
+--model_type bert \
+--model_name_or_path bert-base-multilingual-uncased \
+--output_dir $output_dir/bert \
+--log_dir $log_dir \
+--do_train \
+--max_seq_length 512 \
+--num_train_epochs 3 \
+--per_gpu_train_batch_size 12 \
+--per_gpu_eval_batch_size 12 \
+--learning_rate 3e-05 \
+--weight_decay 0.001 \
+--num_workers 12 \
+--do_lower_case \
+--save_steps 2000 \
+--logging_steps 100 \
+--overwrite_output_dir \
+--evaluate_during_training

@@ -23,6 +23,7 @@
           <option value="float.*" />
           <option value="torch.utils" />
           <option value="torch.distributed" />
+          <option value="torch.cuda.manual_seed_all" />
         </list>
       </option>
     </inspection_tool>

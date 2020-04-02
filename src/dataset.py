@@ -1,10 +1,11 @@
 import torch
+from torch.utils.data import Dataset
 
 
-class BERTDataset:
-    def __init__(self, comment_text, target, tokenizer, max_len):
+class BERTDataset(Dataset):
+    def __init__(self, comment_text, labels, tokenizer, max_len):
         self.comment_text = comment_text
-        self.target = target
+        self.labels = labels
         self.tokenizer = tokenizer
         self.max_len = max_len
 
@@ -23,13 +24,9 @@ class BERTDataset:
             pad_to_max_length=True
         )
 
-        ids = inputs["input_ids"]
-        mask = inputs["attention_mask"]
-        token_type_ids = inputs["token_type_ids"]
+        input_ids = torch.tensor(inputs["input_ids"], dtype=torch.long)
+        attention_mask = torch.tensor(inputs["attention_mask"], dtype=torch.long)
+        token_type_ids = torch.tensor(inputs["token_type_ids"], dtype=torch.long)
+        labels = torch.tensor(self.labels[item], dtype=torch.long)
 
-        return {
-            'ids': torch.tensor(ids, dtype=torch.long),
-            'mask': torch.tensor(mask, dtype=torch.long),
-            'token_type_ids': torch.tensor(token_type_ids, dtype=torch.long),
-            'targets': torch.tensor(self.target[item], dtype=torch.float)
-        }
+        return [input_ids, attention_mask, token_type_ids, labels]
