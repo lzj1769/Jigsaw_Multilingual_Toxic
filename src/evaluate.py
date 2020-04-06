@@ -5,10 +5,9 @@ from sklearn import metrics
 from utils import load_data
 
 
-def evaluate(args, model, tokenizer):
+def evaluate(args, eval_dataset, model):
     results = {}
 
-    eval_dataset = load_data(args, tokenizer, data="validation")
     args.eval_batch_size = args.per_gpu_eval_batch_size * args.n_gpu
     eval_sampler = SequentialSampler(eval_dataset)
     eval_dataloader = DataLoader(eval_dataset,
@@ -41,16 +40,14 @@ def evaluate(args, model, tokenizer):
                 )  # XLM, DistilBERT, RoBERTa, and XLM-RoBERTa don't use segment_ids
             outputs = model(**inputs)
             tmp_eval_loss, logits = outputs[:2]
-
             eval_loss += tmp_eval_loss.mean().item()
 
         nb_eval_steps += 1
         if y_score is None:
-            y_score = torch.nn.functional.softmax(logits, dim=-1).detach().cpu().numpy()
+            y_score = logits.detach().cpu().numpy()
             y_true = inputs["labels"].detach().cpu().numpy()
         else:
-            y_score = np.append(y_score, torch.nn.functional.softmax(logits, dim=-1).detach().cpu().numpy(),
-                                axis=0)
+            y_score = np.append(y_score, logits.detach().cpu().numpy(), axis=0)
             y_true = np.append(y_true, inputs["labels"].detach().cpu().numpy(), axis=0)
 
     results['loss'] = eval_loss / nb_eval_steps

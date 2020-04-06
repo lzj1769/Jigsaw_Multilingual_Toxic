@@ -2,10 +2,12 @@
 Albert, XLM-RoBERTa)."""
 
 import os
+import sys
 import argparse
 import glob
 import logging
 import torch
+import warnings
 
 from transformers import (
     MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING,
@@ -15,10 +17,12 @@ from transformers import (
     AutoTokenizer
 )
 
-from model import BERTBaseUncased
 from utils import load_data, set_seed
 from train import train
 from evaluate import evaluate
+
+if not sys.warnoptions:
+    warnings.simplefilter("ignore")
 
 logger = logging.getLogger(__name__)
 
@@ -191,7 +195,8 @@ def main():
     # Training
     if args.do_train:
         train_dataset = load_data(args, tokenizer, data="train")
-        global_step, tr_loss = train(args, train_dataset, model, tokenizer)
+        eva_dataset = load_data(args, tokenizer, data="validation")
+        global_step, tr_loss = train(args, train_dataset, eva_dataset, model, tokenizer)
         logger.info(" global_step = %s, average loss = %s", global_step, tr_loss)
 
     # Saving best-practices: if you use defaults names for the model, you can reload it using from_pretrained()

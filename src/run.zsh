@@ -4,7 +4,7 @@
 #SBATCH -o run.txt
 
 #SBATCH -t 60:00:00 --mem=60G
-#SBATCH --gres=gpu:2 -A rwth0455 -c 48
+#SBATCH --gres=gpu:2 -A rwth0455 -c 16
 
 module load cuda
 source ~/.zshrc
@@ -21,15 +21,15 @@ python run.py \
 --output_dir $output_dir/bert \
 --log_dir $log_dir \
 --do_train \
---max_seq_length 512 \
+--max_seq_length 256 \
 --num_train_epochs 3 \
---per_gpu_train_batch_size 12 \
---per_gpu_eval_batch_size 12 \
+--per_gpu_train_batch_size 32 \
+--per_gpu_eval_batch_size 32 \
 --learning_rate 3e-05 \
---weight_decay 0.001 \
+--weight_decay 0.0001 \
 --num_workers 12 \
 --do_lower_case \
---save_steps 2000 \
+--save_steps 10000 \
 --logging_steps 100 \
 --overwrite_output_dir \
 --evaluate_during_training

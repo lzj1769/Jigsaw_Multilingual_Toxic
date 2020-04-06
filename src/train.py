@@ -6,13 +6,13 @@ from torch.utils.data import DataLoader, RandomSampler
 from transformers import AdamW, get_linear_schedule_with_warmup
 from torch.utils.tensorboard import SummaryWriter
 
-from utils import set_seed
+from utils import set_seed, load_data
 from evaluate import evaluate
 
 logger = logging.getLogger(__name__)
 
 
-def train(args, train_dataset, model, tokenizer):
+def train(args, train_dataset, eva_dataset, model, tokenizer):
     """ Train the model """
     import socket
     from datetime import datetime
@@ -109,14 +109,13 @@ def train(args, train_dataset, model, tokenizer):
             model.zero_grad()
 
             global_step += 1
-            if args.logging_steps > 0 and global_step % args.logging_steps == 0:
+            if global_step % args.logging_steps == 0:
                 logs = {}
-                if args.evaluate_during_training:
-                    # Only evaluate when single GPU otherwise metrics may not average well
-                    results = evaluate(args, model, tokenizer)
-                    for key, value in results.items():
-                        eval_key = "eval_{}".format(key)
-                        logs[eval_key] = value
+                # Only evaluate when single GPU otherwise metrics may not average well
+                results = evaluate(args, eva_dataset, model)
+                for key, value in results.items():
+                    eval_key = "eval_{}".format(key)
+                    logs[eval_key] = value
 
                 loss_scalar = (tr_loss - logging_loss) / args.logging_steps
                 learning_rate_scalar = scheduler.get_lr()[0]
@@ -127,7 +126,7 @@ def train(args, train_dataset, model, tokenizer):
                 for key, value in logs.items():
                     tb_writer.add_scalar(key, value, global_step)
 
-            if args.save_steps > 0 and global_step % args.save_steps == 0:
+            if global_step % args.save_steps == 0:
                 # Save model checkpoint
                 output_dir = os.path.join(args.output_dir, "checkpoint-{}".format(global_step))
                 if not os.path.exists(output_dir):
