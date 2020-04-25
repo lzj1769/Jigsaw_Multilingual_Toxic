@@ -32,7 +32,6 @@ def load_data(args, tokenizer, data):
             df_train1[['comment_text', 'toxic']],
             df_train2[['comment_text', 'toxic']]
         ])
-        df_train[['comment_text']] = df_train[['comment_text']].replace(r'\n', ' ', regex=True)
 
         train_dataset = dataset.BERTDataset(
             comment_text=df_train.comment_text.values,

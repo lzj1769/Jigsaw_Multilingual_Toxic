@@ -1,8 +1,8 @@
 (OK) Loading cuda 10.2.89
 (OK) Loading gcc system-default
-04/06/2020 23:48:59 - WARNING - __main__ -   device: cuda, n_gpu: 2
-04/06/2020 23:48:59 - INFO - transformers.configuration_utils -   loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-uncased-config.json from cache at /home/rs619065/.cache/torch/transformers/33b56ce0f312e47e4d77a57791a4fc6233ae4a560dd2bdd186107058294e58ab.c7892120c5a9b21e515abc904e398dbabddf9510b122f659063cbf361fe16868
-04/06/2020 23:48:59 - INFO - transformers.configuration_utils -   Model config BertConfig {
+04/25/2020 02:52:23 - WARNING - __main__ -   device: cuda, n_gpu: 2
+04/25/2020 02:52:24 - INFO - transformers.configuration_utils -   loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-uncased-config.json from cache at /home/rs619065/.cache/torch/transformers/33b56ce0f312e47e4d77a57791a4fc6233ae4a560dd2bdd186107058294e58ab.fcb1786f49c279f0e0f158c9972b9bd9f6c0edb5d893dcb9b530d714d86f0edc
+04/25/2020 02:52:24 - INFO - transformers.configuration_utils -   Model config BertConfig {
   "_num_labels": 2,
   "architectures": [
     "BertForMaskedLM"
@@ -60,8 +60,8 @@
   "vocab_size": 105879
 }
 
-04/06/2020 23:49:00 - INFO - transformers.configuration_utils -   loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-uncased-config.json from cache at /home/rs619065/.cache/torch/transformers/33b56ce0f312e47e4d77a57791a4fc6233ae4a560dd2bdd186107058294e58ab.c7892120c5a9b21e515abc904e398dbabddf9510b122f659063cbf361fe16868
-04/06/2020 23:49:00 - INFO - transformers.configuration_utils -   Model config BertConfig {
+04/25/2020 02:52:24 - INFO - transformers.configuration_utils -   loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-uncased-config.json from cache at /home/rs619065/.cache/torch/transformers/33b56ce0f312e47e4d77a57791a4fc6233ae4a560dd2bdd186107058294e58ab.fcb1786f49c279f0e0f158c9972b9bd9f6c0edb5d893dcb9b530d714d86f0edc
+04/25/2020 02:52:24 - INFO - transformers.configuration_utils -   Model config BertConfig {
   "_num_labels": 2,
   "architectures": [
     "BertForMaskedLM"
@@ -119,14 +119,47 @@
   "vocab_size": 105879
 }
 
-04/06/2020 23:49:00 - INFO - transformers.tokenization_utils -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-uncased-vocab.txt from cache at /home/rs619065/.cache/torch/transformers/bb773818882b0524dc53a1b31a2cc95bc489f000e7e19773ba07846011a6c711.535306b226c42cebebbc0dabc83b92ab11260e9919e21e2ab0beb301f267b4c7
-04/06/2020 23:49:01 - INFO - transformers.modeling_utils -   loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-uncased-pytorch_model.bin from cache at /home/rs619065/.cache/torch/transformers/cc4042a0d6f70eae595ea0e6d49521b17bd6251f973b3e37d303ce7945b90eed.54b4dad9cc3db9aa8448458b782d11ab07c80dedb951906fd2f684a00ecdb1ee
-04/06/2020 23:49:10 - INFO - transformers.modeling_utils -   Weights of BertForSequenceClassification not initialized from pretrained model: ['classifier.weight', 'classifier.bias']
-04/06/2020 23:49:10 - INFO - transformers.modeling_utils -   Weights from pretrained model not used in BertForSequenceClassification: ['cls.predictions.bias', 'cls.predictions.transform.dense.weight', 'cls.predictions.transform.dense.bias', 'cls.predictions.decoder.weight', 'cls.seq_relationship.weight', 'cls.seq_relationship.bias', 'cls.predictions.transform.LayerNorm.weight', 'cls.predictions.transform.LayerNorm.bias']
-04/06/2020 23:49:16 - INFO - __main__ -   Training/evaluation parameters Namespace(adam_epsilon=1e-08, comment='', config_name='', data_dir='/home/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/input', device=device(type='cuda'), do_eval=False, do_lower_case=True, do_train=True, eval_all_checkpoints=False, evaluate_during_training=True, learning_rate=3e-05, log_dir='/home/rs619065/kaggle/Jigsaw_Multilingual_Toxic/log', logging_steps=100, max_seq_length=256, model_name_or_path='bert-base-multilingual-uncased', model_type='bert', n_gpu=2, num_train_epochs=3, num_workers=12, output_dir='/work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert', overwrite_cache=False, overwrite_output_dir=True, per_gpu_eval_batch_size=32, per_gpu_train_batch_size=32, save_steps=10000, seed=42, tokenizer_name='', warmup_steps=0, weight_decay=0.0001)
-04/06/2020 23:49:33 - INFO - train -   ***** Running training *****
-04/06/2020 23:49:33 - INFO - train -     Num examples = 2125743
-04/06/2020 23:49:33 - INFO - train -     Num Epochs = 3
-04/06/2020 23:49:33 - INFO - train -     Instantaneous batch size per GPU = 32
-04/06/2020 23:49:33 - INFO - train -     Total train batch size = 64
-04/06/2020 23:49:33 - INFO - train -     Total optimization steps = 99645
+04/25/2020 02:52:25 - INFO - transformers.tokenization_utils -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-uncased-vocab.txt from cache at /home/rs619065/.cache/torch/transformers/bb773818882b0524dc53a1b31a2cc95bc489f000e7e19773ba07846011a6c711.535306b226c42cebebbc0dabc83b92ab11260e9919e21e2ab0beb301f267b4c7
+04/25/2020 02:52:25 - INFO - transformers.modeling_utils -   loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-uncased-pytorch_model.bin from cache at /home/rs619065/.cache/torch/transformers/cc4042a0d6f70eae595ea0e6d49521b17bd6251f973b3e37d303ce7945b90eed.54b4dad9cc3db9aa8448458b782d11ab07c80dedb951906fd2f684a00ecdb1ee
+04/25/2020 02:52:36 - INFO - transformers.modeling_utils -   Weights of BertForSequenceClassification not initialized from pretrained model: ['classifier.weight', 'classifier.bias']
+04/25/2020 02:52:36 - INFO - transformers.modeling_utils -   Weights from pretrained model not used in BertForSequenceClassification: ['cls.predictions.bias', 'cls.predictions.transform.dense.weight', 'cls.predictions.transform.dense.bias', 'cls.predictions.decoder.weight', 'cls.seq_relationship.weight', 'cls.seq_relationship.bias', 'cls.predictions.transform.LayerNorm.weight', 'cls.predictions.transform.LayerNorm.bias']
+04/25/2020 02:52:46 - INFO - __main__ -   Training/evaluation parameters Namespace(adam_epsilon=1e-08, comment='', config_name='', data_dir='/home/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/input', device=device(type='cuda'), do_eval=False, do_lower_case=True, do_train=True, eval_all_checkpoints=False, evaluate_during_training=True, learning_rate=3e-05, log_dir='/home/rs619065/kaggle/Jigsaw_Multilingual_Toxic/log', logging_steps=100, max_seq_length=256, model_name_or_path='bert-base-multilingual-uncased', model_type='bert', n_gpu=2, num_train_epochs=3, num_workers=16, output_dir='/work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert', overwrite_cache=False, overwrite_output_dir=True, per_gpu_eval_batch_size=32, per_gpu_train_batch_size=32, save_steps=10000, seed=42, tokenizer_name='', warmup_steps=0, weight_decay=0.0001)
+04/25/2020 02:53:00 - INFO - train -   ***** Running training *****
+04/25/2020 02:53:00 - INFO - train -     Num examples = 2125743
+04/25/2020 02:53:00 - INFO - train -     Num Epochs = 3
+04/25/2020 02:53:00 - INFO - train -     Instantaneous batch size per GPU = 32
+04/25/2020 02:53:00 - INFO - train -     Total train batch size = 64
+04/25/2020 02:53:00 - INFO - train -     Total optimization steps = 99645
+04/25/2020 04:58:13 - INFO - transformers.configuration_utils -   Configuration saved in /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-10000/config.json
+04/25/2020 04:58:19 - INFO - transformers.modeling_utils -   Model weights saved in /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-10000/pytorch_model.bin
+04/25/2020 04:58:19 - INFO - train -   Saving model checkpoint to /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-10000
+04/25/2020 04:58:32 - INFO - train -   Saving optimizer and scheduler states to /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-10000
+04/25/2020 07:03:48 - INFO - transformers.configuration_utils -   Configuration saved in /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-20000/config.json
+04/25/2020 07:03:54 - INFO - transformers.modeling_utils -   Model weights saved in /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-20000/pytorch_model.bin
+04/25/2020 07:03:54 - INFO - train -   Saving model checkpoint to /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-20000
+04/25/2020 07:04:07 - INFO - train -   Saving optimizer and scheduler states to /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-20000
+04/25/2020 09:09:26 - INFO - transformers.configuration_utils -   Configuration saved in /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-30000/config.json
+04/25/2020 09:09:33 - INFO - transformers.modeling_utils -   Model weights saved in /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-30000/pytorch_model.bin
+04/25/2020 09:09:33 - INFO - train -   Saving model checkpoint to /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-30000
+04/25/2020 09:09:45 - INFO - train -   Saving optimizer and scheduler states to /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-30000
+04/25/2020 11:15:12 - INFO - transformers.configuration_utils -   Configuration saved in /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-40000/config.json
+04/25/2020 11:15:18 - INFO - transformers.modeling_utils -   Model weights saved in /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-40000/pytorch_model.bin
+04/25/2020 11:15:18 - INFO - train -   Saving model checkpoint to /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-40000
+04/25/2020 11:15:31 - INFO - train -   Saving optimizer and scheduler states to /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-40000
+04/25/2020 13:20:51 - INFO - transformers.configuration_utils -   Configuration saved in /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-50000/config.json
+04/25/2020 13:20:58 - INFO - transformers.modeling_utils -   Model weights saved in /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-50000/pytorch_model.bin
+04/25/2020 13:20:58 - INFO - train -   Saving model checkpoint to /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-50000
+04/25/2020 13:21:10 - INFO - train -   Saving optimizer and scheduler states to /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-50000
+04/25/2020 15:26:35 - INFO - transformers.configuration_utils -   Configuration saved in /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-60000/config.json
+04/25/2020 15:26:41 - INFO - transformers.modeling_utils -   Model weights saved in /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-60000/pytorch_model.bin
+04/25/2020 15:26:41 - INFO - train -   Saving model checkpoint to /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-60000
+04/25/2020 15:26:53 - INFO - train -   Saving optimizer and scheduler states to /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-60000
+04/25/2020 17:32:16 - INFO - transformers.configuration_utils -   Configuration saved in /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-70000/config.json
+04/25/2020 17:32:23 - INFO - transformers.modeling_utils -   Model weights saved in /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-70000/pytorch_model.bin
+04/25/2020 17:32:23 - INFO - train -   Saving model checkpoint to /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-70000
+04/25/2020 17:32:35 - INFO - train -   Saving optimizer and scheduler states to /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-70000
+04/25/2020 19:37:58 - INFO - transformers.configuration_utils -   Configuration saved in /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-80000/config.json
+04/25/2020 19:38:05 - INFO - transformers.modeling_utils -   Model weights saved in /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-80000/pytorch_model.bin
+04/25/2020 19:38:06 - INFO - train -   Saving model checkpoint to /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-80000
+04/25/2020 19:38:18 - INFO - train -   Saving optimizer and scheduler states to /work/rwth0455/kaggle/Jigsaw_Multilingual_Toxic/output/bert/checkpoint-80000
+slurmstepd: error: *** JOB 13582104 ON ncg07 CANCELLED AT 2020-04-25T21:27:24 ***

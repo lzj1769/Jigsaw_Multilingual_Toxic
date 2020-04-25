@@ -3,7 +3,7 @@
 #SBATCH -J run
 #SBATCH -o run.txt
 
-#SBATCH -t 60:00:00 --mem=60G
+#SBATCH -t 120:00:00 --mem=60G
 #SBATCH --gres=gpu:2 -A rwth0455 -c 16
 
 module load cuda
@@ -27,7 +27,7 @@ python run.py \
 --per_gpu_eval_batch_size 32 \
 --learning_rate 3e-05 \
 --weight_decay 0.0001 \
---num_workers 12 \
+--num_workers 16 \
 --do_lower_case \
 --save_steps 10000 \
 --logging_steps 100 \
